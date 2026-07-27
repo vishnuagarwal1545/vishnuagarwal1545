@@ -17,10 +17,10 @@ if (!TOKEN) {
 const techStack = JSON.parse(readFileSync(new URL('../data/tech-stack.json', import.meta.url)));
 
 const weeks = await fetchContributionWeeks(LOGIN, TOKEN);
-const { cols, rows, levels } = levelsFromWeeks(weeks);
-const GRID = { cols, rows, cell: 16, gap: 3 };
+const { cols, rows, levels, monthLabels } = levelsFromWeeks(weeks);
+const GRID = { cols, rows, cell: 20, gap: 4 };
 
-const path = buildPath(GRID.cols, GRID.rows);
+const path = buildPath(GRID.cols, GRID.rows, SEED);
 const sim = simulate({ path, techStack, seed: SEED, levels });
 
 // ponytail self-check: cheapest guard against a silently broken timeline.
@@ -31,7 +31,7 @@ assert.ok(badgeCount > 0 && badgeCount <= techStack.length, 'badge count must be
 mkdirSync(new URL('../assets/', import.meta.url), { recursive: true });
 
 for (const [themeName, palette] of Object.entries(PALETTES)) {
-  const svg = renderSvg(sim, palette, GRID);
+  const svg = renderSvg(sim, palette, GRID, monthLabels);
   writeFileSync(new URL(`../assets/tech-snake-${themeName}.svg`, import.meta.url), svg);
   console.log(`wrote assets/tech-snake-${themeName}.svg (${svg.length} bytes)`);
 }

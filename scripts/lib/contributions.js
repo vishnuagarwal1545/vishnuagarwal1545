@@ -1,5 +1,24 @@
 // Turns a GitHub contributionCalendar (weeks -> days) into a flat per-cell
 // level array matching path.js's cellIndex = row * cols + col layout.
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// One label per calendar month that starts within the visible weeks, placed
+// at the column of its first day — same layout GitHub's own calendar uses.
+function monthLabelsFromWeeks(weeks) {
+  const labels = [];
+  let lastMonth = -1;
+  weeks.forEach((week, col) => {
+    const firstDay = week.contributionDays[0]?.date;
+    if (!firstDay) return;
+    const month = new Date(firstDay).getUTCMonth();
+    if (month !== lastMonth) {
+      labels.push({ col, text: MONTH_ABBR[month] });
+      lastMonth = month;
+    }
+  });
+  return labels;
+}
+
 export function levelsFromWeeks(weeks) {
   const cols = weeks.length;
   const rows = 7;
@@ -16,7 +35,7 @@ export function levelsFromWeeks(weeks) {
   // upgrade to their exact quartile-of-nonzero-days method if levels look off.
   const levels = counts.map(c => (c === 0 ? 0 : Math.min(4, Math.ceil((c / max) * 4))));
 
-  return { cols, rows, levels };
+  return { cols, rows, levels, monthLabels: monthLabelsFromWeeks(weeks) };
 }
 
 export async function fetchContributionWeeks(login, token) {
@@ -31,7 +50,7 @@ export async function fetchContributionWeeks(login, token) {
         user(login: $login) {
           contributionsCollection {
             contributionCalendar {
-              weeks { contributionDays { contributionCount weekday } }
+              weeks { contributionDays { contributionCount weekday date } }
             }
           }
         }

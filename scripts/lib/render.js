@@ -71,17 +71,25 @@ function renderBadgeGroup(cell, palette, cellSize, sim) {
   </g>`;
 }
 
-export function renderSvg(sim, palette, gridConfig) {
+const MONTH_LABEL_HEIGHT = 20;
+
+export function renderSvg(sim, palette, gridConfig, monthLabels = []) {
   const { cols, rows, cell, gap } = gridConfig;
   const width = cols * (cell + gap) - gap;
-  const height = rows * (cell + gap) - gap;
+  const gridHeight = rows * (cell + gap) - gap;
+  const labelHeight = monthLabels.length ? MONTH_LABEL_HEIGHT : 0;
+  const height = gridHeight + labelHeight;
+
+  const labels = monthLabels.map(({ col, text }) =>
+    `<text x="${col * (cell + gap)}" y="${labelHeight - 6}" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="12" fill="${palette.iconFg}">${text}</text>`
+  );
 
   const rects = [];
   for (const [cellIndex, cellData] of sim.cells) {
     const row = Math.floor(cellIndex / cols);
     const col = cellIndex % cols;
     const x = col * (cell + gap);
-    const y = row * (cell + gap);
+    const y = row * (cell + gap) + labelHeight;
     const level = sim.levels ? sim.levels[cellIndex] : cellIndex % palette.base.length;
     const baseColor = palette.base[level];
     const timeline = buildFillTimeline(cellData, sim, palette, baseColor);
@@ -94,6 +102,7 @@ export function renderSvg(sim, palette, gridConfig) {
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+${labels.join('\n')}
 ${rects.join('\n')}
 </svg>`;
 }
