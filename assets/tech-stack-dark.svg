@@ -81,7 +81,7 @@
       </g>
       <text x="453.20000000000005" y="136" dominant-baseline="central" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#DDE1E9">Nginx</text>
     </g>
-<text x="0" y="194" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#DDE1E9">Cloud & Infra</text>
+<text x="0" y="194" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#DDE1E9">Cloud &amp; Infra</text>
 <g>
       <rect x="0" y="202" width="97.2" height="44" rx="22" fill="#1C2130" stroke="#2A3040" />
       <circle cx="31" cy="224" r="15" fill="#FF9900" />
@@ -130,7 +130,7 @@
       </g>
       <text x="760" y="224" dominant-baseline="central" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14" fill="#DDE1E9">Datadog</text>
     </g>
-<text x="0" y="282" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#DDE1E9">CI/CD & VCS</text>
+<text x="0" y="282" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#DDE1E9">CI/CD &amp; VCS</text>
 <g>
       <rect x="0" y="290" width="139.2" height="44" rx="22" fill="#1C2130" stroke="#2A3040" />
       <circle cx="31" cy="312" r="15" fill="#161616" />

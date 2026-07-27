@@ -9,6 +9,8 @@ import { fetchContributionWeeks, levelsFromWeeks } from './lib/contributions.js'
 const LOGIN = process.env.SNAKE_GITHUB_LOGIN ?? 'vishnuagarwal1545';
 const TOKEN = process.env.PROFILE_GH_TOKEN ?? process.env.GITHUB_TOKEN;
 const SEED = Number(process.env.SNAKE_SEED ?? Date.now() % 2 ** 31);
+// Fewer weeks shown = bigger cells/badges for the same asset width.
+const WEEKS_TO_SHOW = Number(process.env.SNAKE_WEEKS ?? 26);
 
 if (!TOKEN) {
   throw new Error('Set GITHUB_TOKEN (or PROFILE_GH_TOKEN) to fetch real contribution data.');
@@ -16,9 +18,10 @@ if (!TOKEN) {
 
 const techStack = JSON.parse(readFileSync(new URL('../data/tech-stack.json', import.meta.url)));
 
-const weeks = await fetchContributionWeeks(LOGIN, TOKEN);
+const allWeeks = await fetchContributionWeeks(LOGIN, TOKEN);
+const weeks = allWeeks.slice(-WEEKS_TO_SHOW);
 const { cols, rows, levels, monthLabels } = levelsFromWeeks(weeks);
-const GRID = { cols, rows, cell: 20, gap: 4 };
+const GRID = { cols, rows, cell: 28, gap: 6 };
 
 const path = buildPath(GRID.cols, GRID.rows, SEED);
 const sim = simulate({ path, techStack, seed: SEED, levels });

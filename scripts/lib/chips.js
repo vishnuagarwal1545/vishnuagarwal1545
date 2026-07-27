@@ -8,6 +8,10 @@ const ICON_SCALE_RATIO = 0.72; // fraction of iconSize the icon glyph is drawn a
 const GROUP_HEADING_HEIGHT = 26;
 const GROUP_GAP_Y = 18;
 
+function escapeXml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function textWidth(text, fontSize) {
   return text.length * fontSize * CHAR_WIDTH_RATIO;
 }
@@ -76,7 +80,7 @@ function renderChipGroup(techList, palette, opts, yOffset) {
       <g transform="translate(${iconCx - iconOffset}, ${iconCy - iconOffset}) scale(${iconScale})">
         <path d="${iconPath}" fill="${tech.textColor}" />
       </g>
-      <text x="${x + paddingX + iconSize + iconTextGap}" y="${y + yOffset + r}" dominant-baseline="central" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="${fontSize}" fill="${palette.text}">${tech.name}</text>
+      <text x="${x + paddingX + iconSize + iconTextGap}" y="${y + yOffset + r}" dominant-baseline="central" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="${fontSize}" fill="${palette.text}">${escapeXml(tech.name)}</text>
     </g>`;
   });
 
@@ -91,7 +95,7 @@ export function renderStackSvg(techList, palette, opts = {}) {
   let y = 0;
 
   for (const { category, items } of groups) {
-    const headingSvg = `<text x="0" y="${y + GROUP_HEADING_HEIGHT - 8}" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="${palette.text}">${category}</text>`;
+    const headingSvg = `<text x="0" y="${y + GROUP_HEADING_HEIGHT - 8}" font-family="-apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="${palette.text}">${escapeXml(category)}</text>`;
     y += GROUP_HEADING_HEIGHT;
 
     const { svg, height } = renderChipGroup(items, palette, { ...opts, maxWidth }, y);

@@ -65,7 +65,7 @@ function renderBadgeGroup(cell, palette, cellSize, sim) {
   return `<g opacity="0">
     ${animate}
     <circle cx="${r}" cy="${r}" r="${r}" fill="${palette.badgeBg}" />
-    <g transform="translate(${r - cellSize * 0.2}, ${r - cellSize * 0.2}) scale(${(cellSize * 0.4) / 24})">
+    <g transform="translate(${r - cellSize * 0.32}, ${r - cellSize * 0.32}) scale(${(cellSize * 0.64) / 24})">
       <path d="${iconPath}" fill="${palette.iconFg}" />
     </g>
   </g>`;
