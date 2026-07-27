@@ -1,5 +1,9 @@
 # 💫 About Me:
-lorem ipsom
+Senior DevOps Engineer with 6+ years building cloud infrastructure, platform reliability, and large-scale automation. Deep in AWS, Kubernetes, Docker, Terraform, and CI/CD — IaC, cost optimization, security-hardening, and high-availability architecture for SaaS and data-intensive systems.
+
+- 🔭 Currently: Senior DevOps Engineer at Tech Prescient (client: Teikametrics) — EKS, Terraform GitOps via Argo Workflows/Events, Aurora PostgreSQL, sharded Redis/Valkey
+- 🌱 Background: CI/CD, Kubernetes security (OPA, IAST), and Spring Boot microservices from Infosys/EdgeVerve
+- 🎓 B.Tech Computer Science, SRM Institute of Science & Technology
 
 
 ## 🌐 Socials:
