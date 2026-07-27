@@ -1,0 +1,9 @@
+[
+  { "name": "AWS", "icon": "amazonaws" },
+  { "name": "Kubernetes", "icon": "kubernetes" },
+  { "name": "Terraform", "icon": "terraform" },
+  { "name": "CircleCI", "icon": "circleci" },
+  { "name": "Kafka", "icon": "apachekafka" },
+  { "name": "Datadog", "icon": "datadog" },
+  { "name": "Envoy", "icon": "envoyproxy" }
+]
