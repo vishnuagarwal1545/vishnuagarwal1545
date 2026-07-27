@@ -1,0 +1,12 @@
+{
+  "name": "vishnuagarwal1545-profile",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:snake": "node scripts/generate_snake.js",
+    "test": "node --test scripts/lib/*.test.js"
+  },
+  "devDependencies": {
+    "simple-icons": "^13.0.0"
+  }
+}
