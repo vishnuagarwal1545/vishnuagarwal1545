@@ -40,16 +40,33 @@ function toAnimate(entries, totalSteps, loopMs) {
     `keyTimes="${keyTimes.join(';')}" values="${values.join(';')}" calcMode="discrete" />`;
 }
 
-function renderBadgeGroup(cell, palette, cellSize) {
+function renderBadgeGroup(cell, palette, cellSize, sim) {
   if (!cell.badge) return '';
   const { spawnStep, eatStep, tech } = cell.badge;
+  const { totalSteps, loopMs } = sim;
   const iconPath = getIconPath(tech.icon);
   const r = cellSize / 2;
+
+  // Build opacity keyframe timeline: 0 (before spawn) -> 1 (during badge) -> 0 (after eat)
+  const entries = [
+    { step: 0, opacity: 0 },
+    { step: spawnStep, opacity: 0 },
+    { step: spawnStep + 0.001, opacity: 1 },
+    { step: eatStep - 0.001, opacity: 1 },
+    { step: eatStep, opacity: 0 }
+  ];
+
+  const keyTimes = entries.map(e => fmt(e.step / totalSteps));
+  const values = entries.map(e => e.opacity);
+  if (keyTimes[0] !== 0) { keyTimes.unshift(0); values.unshift(values[0]); }
+  keyTimes.push(1);
+  values.push(values[0]); // loop seam: end value matches start value
+
+  const animate = `<animate attributeName="opacity" dur="${loopMs}ms" repeatCount="indefinite" ` +
+    `keyTimes="${keyTimes.join(';')}" values="${values.join(';')}" calcMode="discrete" />`;
+
   return `<g opacity="0">
-    <animate attributeName="opacity" attributeType="XML"
-      keyTimes="0;${fmt(spawnStep)};${fmt(spawnStep + 0.001)};${fmt(eatStep - 0.001)};${fmt(eatStep)};1"
-      values="0;0;1;1;0;0" calcMode="discrete" dur="1" begin="0s" fill="freeze"
-      restart="never" />
+    ${animate}
     <circle cx="${r}" cy="${r}" r="${r}" fill="${palette.badgeBg}" />
     <g transform="translate(${r * 0.3}, ${r * 0.3}) scale(${(cellSize * 0.4) / 24})">
       <path d="${iconPath}" fill="currentColor" />
@@ -75,7 +92,7 @@ export function renderSvg(sim, palette, gridConfig) {
 
     rects.push(`<g transform="translate(${x},${y})">
       <rect width="${cell}" height="${cell}" rx="2" fill="${baseColor}">${animate}</rect>
-      ${renderBadgeGroup(cellData, palette, cell)}
+      ${renderBadgeGroup(cellData, palette, cell, sim)}
     </g>`);
   }
 
