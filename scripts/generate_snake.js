@@ -6,7 +6,7 @@ import { renderSvg } from './lib/render.js';
 import { PALETTES } from './lib/palette.js';
 
 const GRID = { cols: 53, rows: 7, cell: 11, gap: 2 };
-const SEED = 20260727; // fixed: rerolls only when this file is edited, keeps diffs reviewable across CI runs if desired otherwise randomize
+const SEED = Number(process.env.SNAKE_SEED ?? Date.now() % 2 ** 31);
 
 const techStack = JSON.parse(readFileSync(new URL('../data/tech-stack.json', import.meta.url)));
 

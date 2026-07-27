@@ -22,9 +22,6 @@ function buildFillTimeline(cell, sim, palette, baseColor) {
 
   if (badge) push(badge.spawnStep, palette.badgeBg);
   push(pathIndex, palette.snake);
-  for (let i = 1; i < snakeLength; i++) {
-    push(pathIndex + i, palette.snake); // color stays snake; opacity handles falloff on head cell only
-  }
   push(pathIndex + snakeLength, baseColor);
 
   return entries;
@@ -68,8 +65,8 @@ function renderBadgeGroup(cell, palette, cellSize, sim) {
   return `<g opacity="0">
     ${animate}
     <circle cx="${r}" cy="${r}" r="${r}" fill="${palette.badgeBg}" />
-    <g transform="translate(${r * 0.3}, ${r * 0.3}) scale(${(cellSize * 0.4) / 24})">
-      <path d="${iconPath}" fill="currentColor" />
+    <g transform="translate(${r - cellSize * 0.2}, ${r - cellSize * 0.2}) scale(${(cellSize * 0.4) / 24})">
+      <path d="${iconPath}" fill="${palette.iconFg}" />
     </g>
   </g>`;
 }
@@ -85,7 +82,7 @@ export function renderSvg(sim, palette, gridConfig) {
     const col = cellIndex % cols;
     const x = col * (cell + gap);
     const y = row * (cell + gap);
-    const baseColorIdx = cellIndex % palette.base.length; // deterministic, not random — see Task 5 self-review note
+    const baseColorIdx = cellIndex % palette.base.length; // deterministic, not random
     const baseColor = palette.base[baseColorIdx];
     const timeline = buildFillTimeline(cellData, sim, palette, baseColor);
     const animate = toAnimate(timeline, sim.totalSteps, sim.loopMs);

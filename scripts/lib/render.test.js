@@ -43,4 +43,7 @@ test('badge animate block has correct loop-scaled animation', () => {
   // Verify keyTimes are normalized to [0,1] range
   assert.ok(svg.includes('keyTimes="0;'), 'keyTimes should start at 0');
   assert.ok(/keyTimes="[^"]*;1"/.test(svg), 'keyTimes should end at 1');
+  // Verify badge icon uses explicit palette color, not currentColor (invisible in standalone SVG)
+  assert.ok(svg.includes(`fill="${PALETTES.light.iconFg}"`), 'badge icon should use palette iconFg color');
+  assert.ok(!svg.includes('currentColor'), 'badge icon should not use currentColor');
 });
