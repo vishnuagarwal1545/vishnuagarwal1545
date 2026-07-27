@@ -1,4 +1,4 @@
-name: Regenerate tech-stack snake
+name: Regenerate profile assets
 
 on:
   schedule:
@@ -20,9 +20,15 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run generate:snake
+      - run: npm run generate
+        env:
+          # Falls back to the default token; swap in a classic PAT with the
+          # read:user scope here (as repo secret PROFILE_GH_TOKEN) if contribution
+          # counts come back empty — see scripts/lib/contributions.js.
+          PROFILE_GH_TOKEN: ${{ secrets.PROFILE_GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore: regenerate tech-stack snake SVGs'
+          commit_message: 'chore: regenerate profile SVGs'
           file_pattern: 'assets/*.svg'

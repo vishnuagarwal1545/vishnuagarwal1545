@@ -4,14 +4,24 @@ import { buildPath } from './lib/path.js';
 import { simulate } from './lib/simulate.js';
 import { renderSvg } from './lib/render.js';
 import { PALETTES } from './lib/palette.js';
+import { fetchContributionWeeks, levelsFromWeeks } from './lib/contributions.js';
 
-const GRID = { cols: 53, rows: 7, cell: 11, gap: 2 };
+const LOGIN = process.env.SNAKE_GITHUB_LOGIN ?? 'vishnuagarwal1545';
+const TOKEN = process.env.PROFILE_GH_TOKEN ?? process.env.GITHUB_TOKEN;
 const SEED = Number(process.env.SNAKE_SEED ?? Date.now() % 2 ** 31);
+
+if (!TOKEN) {
+  throw new Error('Set GITHUB_TOKEN (or PROFILE_GH_TOKEN) to fetch real contribution data.');
+}
 
 const techStack = JSON.parse(readFileSync(new URL('../data/tech-stack.json', import.meta.url)));
 
+const weeks = await fetchContributionWeeks(LOGIN, TOKEN);
+const { cols, rows, levels } = levelsFromWeeks(weeks);
+const GRID = { cols, rows, cell: 16, gap: 3 };
+
 const path = buildPath(GRID.cols, GRID.rows);
-const sim = simulate({ path, techStack, seed: SEED });
+const sim = simulate({ path, techStack, seed: SEED, levels });
 
 // ponytail self-check: cheapest guard against a silently broken timeline.
 assert.equal(sim.cells.size, GRID.cols * GRID.rows, 'every cell must appear exactly once');

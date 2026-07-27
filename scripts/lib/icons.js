@@ -2,6 +2,7 @@ import * as simpleIcons from 'simple-icons';
 
 const SLUG_OVERRIDES = {
   amazonaws: 'siAmazonwebservices',
+  gitlabci: 'siGitlab',
 };
 
 function toExportName(slug) {

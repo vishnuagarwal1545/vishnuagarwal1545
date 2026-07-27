@@ -82,8 +82,8 @@ export function renderSvg(sim, palette, gridConfig) {
     const col = cellIndex % cols;
     const x = col * (cell + gap);
     const y = row * (cell + gap);
-    const baseColorIdx = cellIndex % palette.base.length; // deterministic, not random
-    const baseColor = palette.base[baseColorIdx];
+    const level = sim.levels ? sim.levels[cellIndex] : cellIndex % palette.base.length;
+    const baseColor = palette.base[level];
     const timeline = buildFillTimeline(cellData, sim, palette, baseColor);
     const animate = toAnimate(timeline, sim.totalSteps, sim.loopMs);
 

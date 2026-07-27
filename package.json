@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "generate:snake": "node scripts/generate_snake.js",
+    "generate:stack": "node scripts/generate_stack.js",
+    "generate": "npm run generate:snake && npm run generate:stack",
     "test": "node --test scripts/lib/*.test.js"
   },
   "devDependencies": {

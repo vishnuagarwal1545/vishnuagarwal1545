@@ -28,7 +28,7 @@ function scheduleBadges(pathLength, techStack, rng) {
   return badges;
 }
 
-export function simulate({ path, techStack, seed = 1, snakeLength = 5, stepMs = 180 }) {
+export function simulate({ path, techStack, seed = 1, snakeLength = 5, stepMs = 180, levels = null }) {
   const rng = mulberry32(seed);
   const badges = scheduleBadges(path.length, techStack, rng);
   const badgeByPathIndex = new Map(badges.map(b => [b.eatPathIndex, b]));
@@ -51,5 +51,6 @@ export function simulate({ path, techStack, seed = 1, snakeLength = 5, stepMs = 
     loopMs: path.length * stepMs,
     cells,
     snakeLength,
+    levels,
   };
 }
